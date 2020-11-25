@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'RoundedButton.dart';
 import 'function.dart';
+import 'package:clipboard/clipboard.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -12,10 +13,11 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   String jsonString;
   String dartClasses = "Dart classes will appear here";
+  var textController = new TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey,
+      backgroundColor: Colors.white,
       body: Padding(
         padding: EdgeInsets.all(24.0),
         child: Column(
@@ -60,7 +62,6 @@ class _HomePageState extends State<HomePage> {
                         ),
                         onChanged: (value) {
                           jsonString = value;
-                          print(jsonString);
                         },
                       ),
                       RoundedButton(
@@ -68,9 +69,9 @@ class _HomePageState extends State<HomePage> {
                         colour: Colors.teal,
                         onPressed: () {
                           Garg garg = Garg(jsonString: jsonString);
-
                           setState(() {
                             dartClasses = garg.calc();
+                            textController.text = dartClasses;
                           });
                         },
                       ),
@@ -82,13 +83,14 @@ class _HomePageState extends State<HomePage> {
                   child: Column(
                     children: [
                       TextField(
+                        controller: textController,
                         cursorColor: Colors.black,
                         readOnly: true,
                         maxLines: 12,
                         keyboardType: TextInputType.multiline,
                         obscureText: false,
                         style: TextStyle(
-                          color: Colors.black12,
+                          color: Colors.black,
                           fontSize: 18,
                         ),
                         decoration: InputDecoration(
@@ -96,19 +98,50 @@ class _HomePageState extends State<HomePage> {
                           focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.black),
                           ),
-                          labelText: dartClasses,
+                          labelText: "Dart classes will appear here",
                           labelStyle: TextStyle(
                             color: Colors.black45,
                           ),
                         ),
                       ),
-                      SizedBox(
-                        height: 63,
-                      )
+                      RoundedButton(
+                        title: "COPY",
+                        colour: Colors.teal,
+                        onPressed: () {
+                          FlutterClipboard.copy(dartClasses);
+                        },
+                      ),
                     ],
                   ),
                 ),
               ],
+            ),
+            Center(
+              child: RichText(
+                text: TextSpan(children: [
+                  TextSpan(
+                    text: 'Github Repo ',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 15,
+                    ),
+                  ),
+                  TextSpan(
+                    text: 'here',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 15,
+                      //fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.underline,
+                    ),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        launch(
+                            'https://github.com/invictus-15/Json-to-Dart-Generator');
+                      },
+                  )
+                ]),
+              ),
             ),
             Center(
               child: RichText(
@@ -126,7 +159,8 @@ class _HomePageState extends State<HomePage> {
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 15,
-                        fontWeight: FontWeight.bold,
+                        //fontWeight: FontWeight.bold,
+                        decoration: TextDecoration.underline,
                       ),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
@@ -138,7 +172,8 @@ class _HomePageState extends State<HomePage> {
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 15,
-                        fontWeight: FontWeight.bold,
+                        //fontWeight: FontWeight.bold,
+                        decoration: TextDecoration.underline,
                       ),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
@@ -150,7 +185,8 @@ class _HomePageState extends State<HomePage> {
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 15,
-                        fontWeight: FontWeight.bold,
+                        //fontWeight: FontWeight.bold,
+                        decoration: TextDecoration.underline,
                       ),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
