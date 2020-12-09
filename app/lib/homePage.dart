@@ -48,6 +48,7 @@ class _HomePageState extends State<HomePage> {
     }
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.teal,
         actions: [
           Tooltip(
             message: 'Go to Github Repo',
@@ -256,7 +257,6 @@ class _HomePageState extends State<HomePage> {
           title: "GENERATE",
           colour: Colors.teal,
           onPressed: () {
-
             Garg garg = Garg(
                 jsonString: jsonInputController.text,
                 className: (classNameText.text.trim() != null &&
@@ -291,7 +291,6 @@ class _HomePageState extends State<HomePage> {
 
                 visibleWidget = dartOutputWidget(lines);
               }
-
             });
           },
         ),
