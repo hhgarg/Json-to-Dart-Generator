@@ -1,13 +1,19 @@
 import 'package:json_to_dart/json_to_dart.dart';
 
 class Garg {
-  Garg({this.jsonString});
+  Garg({this.jsonString, this.className = "Generated"});
+  final String className;
   final String jsonString;
   String calc() {
-    final dartCodeGenerator = ModelGenerator('Sample');
-    final DartCode generatedCode =
-        dartCodeGenerator.generateDartClasses(jsonString);
+    try {
+      final dartCodeGenerator = ModelGenerator(className);
+      final DartCode generatedCode =
+          dartCodeGenerator.generateDartClasses(jsonString);
 
-    return generatedCode.code;
+      return generatedCode.code;
+    } catch (e) {
+      print(e);
+      return null;
+    }
   }
 }
