@@ -1,5 +1,5 @@
 import 'package:json_ast/json_ast.dart' show Node;
-import 'package:json_to_dart/helpers.dart';
+import 'helpers.dart';
 
 const String emptyListWarn = 'list is empty';
 const String ambiguousListWarn = 'list is ambiguous';

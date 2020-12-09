@@ -115,7 +115,7 @@ class _HomePageState extends State<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'TEAM MEMBERS:',
+                      'TEAM MEMBERS:  ',
                     ),
                     SizedBox(width: 10),
                     InkWell(
@@ -256,6 +256,7 @@ class _HomePageState extends State<HomePage> {
           title: "GENERATE",
           colour: Colors.teal,
           onPressed: () {
+
             Garg garg = Garg(
                 jsonString: jsonInputController.text,
                 className: (classNameText.text.trim() != null &&
@@ -290,6 +291,7 @@ class _HomePageState extends State<HomePage> {
 
                 visibleWidget = dartOutputWidget(lines);
               }
+
             });
           },
         ),

@@ -1,7 +1,7 @@
 import 'package:dart_style/dart_style.dart';
 import 'package:json_ast/json_ast.dart' show parse, Settings, Node;
-import 'package:json_to_dart/helpers.dart';
-import 'package:json_to_dart/syntax.dart';
+import 'helpers.dart';
+import 'syntax.dart';
 
 class DartCode extends WithWarning<String> {
   DartCode(String result, List<Warning> warnings) : super(result, warnings);
