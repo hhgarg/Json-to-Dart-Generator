@@ -184,30 +184,35 @@ class _HomePageState extends State<HomePage> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            RoundedButton(
-              title: "COPY",
-              colour: Colors.teal,
-              onPressed: () {
-                FlutterClipboard.copy(dartClasses);
-              },
+            Flexible(
+              child: RoundedButton(
+                title: "COPY",
+                colour: Colors.teal,
+                onPressed: () {
+                  FlutterClipboard.copy(dartClasses);
+                },
+              ),
             ),
-            RoundedButton(
-              title: "TRY AGAIN",
-              colour: Colors.teal,
-              onPressed: () {
-                setState(() {
-                  visibleWidget = jsonInputWidget(lines);
-                  jsonInputController.clear();
-                });
-              },
+            Flexible(
+              child: RoundedButton(
+                title: "TRY AGAIN",
+                colour: Colors.teal,
+                onPressed: () {
+                  setState(() {
+                    visibleWidget = jsonInputWidget(lines);
+                    jsonInputController.clear();
+                  });
+                },
+              ),
             )
           ],
-        ),
+        )
       ],
     );
   }
 
   Column jsonInputWidget(lines) {
+    TextEditingController classNameText = TextEditingController();
     return Column(
       key: ValueKey<int>(1),
       children: <Widget>[
@@ -232,16 +237,59 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ),
+        SizedBox(height: 24),
+        TextField(
+          controller: classNameText,
+          maxLines: 1,
+          decoration: InputDecoration(
+            border: OutlineInputBorder(),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.black),
+            ),
+            labelText: 'Enter Class Name here',
+            labelStyle: TextStyle(
+              color: Colors.black45,
+            ),
+          ),
+        ),
         RoundedButton(
           title: "GENERATE",
           colour: Colors.teal,
           onPressed: () {
-            Garg garg = Garg(jsonString: jsonInputController.text);
+            Garg garg = Garg(
+                jsonString: jsonInputController.text,
+                className: (classNameText.text.trim() != null &&
+                        classNameText.text.trim() != '')
+                    ? classNameText.text.trim().contains(' ')
+                        ? classNameText.text.trim().replaceAll(' ', '_')
+                        : classNameText.text.trim()
+                    : 'Generated');
+
             setState(() {
-              isFirstTime = false;
-              visibleWidget = dartOutputWidget(lines);
               dartClasses = garg.calc();
-              dartOutputController.text = dartClasses;
+              if (dartClasses == null) {
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: Text('Error'),
+                    content: Text('The format of input json is incorrect.'),
+                    actions: [
+                      FlatButton(
+                        child: Text('Okay'),
+                        onPressed: () {
+                          jsonInputController.clear();
+                          Navigator.pop(context);
+                        },
+                      )
+                    ],
+                  ),
+                );
+              } else {
+                isFirstTime = false;
+                dartOutputController.text = dartClasses;
+
+                visibleWidget = dartOutputWidget(lines);
+              }
             });
           },
         ),
